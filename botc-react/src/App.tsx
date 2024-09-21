@@ -123,18 +123,22 @@ function App() {
                 var i = gamestate.gamestate.indexOf(x);
                 mySocket?.send(JSON.stringify(["claim",[i, myId]]))
               }
-              }>{gamestate.gamestate.indexOf(x)}</button>
-            : x.id == myId ? <button onClick={()=>{mySocket?.send(JSON.stringify(["claim",[-1, myId]]))}}>Stand up</button> : <>{gamestate.gamestate.indexOf(x)}</>
+              }>{gamestate.gamestate.indexOf(x) + 1}</button>
+            : x.id == myId ? <div>
+                <button onClick={()=>{mySocket?.send(JSON.stringify(["claim",[-1, myId]]))}}>Stand up</button> 
+                {roleMap[myChairIndex]}
+                </div>
+            : <>{gamestate.gamestate.indexOf(x) + 1}</>
           }
         </div>)
       }
-      <br/>
-      {JSON.stringify({clients})}
-      <br/>
+      {/* <br/> */}
+      {/* {JSON.stringify({clients})} */}
+      {/* <br/> */}
       
       {/* My ID: {myId} <br/>
       My Chair Index: {myChairIndex} <br/> */}
-      My Role: {roleMap[myChairIndex]} <br/>
+      {/* My Role: {roleMap[myChairIndex]} <br/> */}
       {/* Roles: {JSON.stringify(roleMap)} <br/> */}
       {/* <button onClick={()=>{localStorage.setItem("clientId", "")}}>Reset User</button> */}
       </div>
