@@ -132,11 +132,11 @@ function App() {
       {JSON.stringify({clients})}
       <br/>
       
-      My ID: {myId} <br/>
-      My Chair Index: {myChairIndex} <br/>
+      {/* My ID: {myId} <br/>
+      My Chair Index: {myChairIndex} <br/> */}
       My Role: {roleMap[myChairIndex]} <br/>
-      Roles: {JSON.stringify(roleMap)} <br/>
-      <button onClick={()=>{localStorage.setItem("clientId", "")}}>Reset User</button>
+      {/* Roles: {JSON.stringify(roleMap)} <br/> */}
+      {/* <button onClick={()=>{localStorage.setItem("clientId", "")}}>Reset User</button> */}
       </div>
     </>
   ) : <>
