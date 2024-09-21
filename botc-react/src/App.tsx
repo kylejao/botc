@@ -116,7 +116,7 @@ function App() {
       <div>
       {gamestate.gamestate.map( x =>
         <div>
-          {JSON.stringify(x)}
+          {/* {JSON.stringify(x)} */}
           {
             x.id == "" ?
               <button onClick={() => {
@@ -124,7 +124,7 @@ function App() {
                 mySocket?.send(JSON.stringify(["claim",[i, myId]]))
               }
               }>Claim {gamestate.gamestate.indexOf(x)}</button>
-            : <></>
+            : x.id == myId ? <div>Me</div> : <>Other Player</>
           }
         </div>)
       }
