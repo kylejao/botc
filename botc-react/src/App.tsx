@@ -25,6 +25,12 @@ interface Seat {
   pronouns: string
 }
 
+interface PlayerMessageInterface {
+  index: number,
+  property: string,
+  value: string,
+  extra: any
+}
 
 const initialGameState = {"gamestate":[],"isNight":true,"isVoteHistoryAllowed":true,"nomination":false,"votingSpeed":3000,"lockedVote":0,"isVoteInProgress":false,"markedPlayer":-1,"fabled":[]}
 
@@ -32,6 +38,8 @@ const initialGameState = {"gamestate":[],"isNight":true,"isVoteHistoryAllowed":t
 function App() {
   const [myId, setMyId] = useState("");
   const [mySocket, setMySocket] = useState<WebSocket | null>(null);
+  const [myChairIndex, setMyChairIndex] = useState(-1);
+  const [role, setRole] = useState("")
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const roomNoParamValue = urlParams.get('roomNo');
@@ -70,8 +78,18 @@ function App() {
           setClients([...clients].concat([clientId]))
         }
       } else if (requestMethod == "gs") {
-        setGameState(params)
+        const receivedGameState: GameStateInterface = params;
+        setGameState(receivedGameState)
+        setMyChairIndex(receivedGameState.gamestate.findIndex(obj => obj["id"] === myClientId));
       } else if (requestMethod == "player") {
+        console.log("Received Player Message")
+        const playerParams: PlayerMessageInterface = params;
+        console.log("Player Params: ", playerParams)
+        if (playerParams.property == "role" && playerParams.index == myChairIndex) {
+          console.log("Setting role...")
+          setRole(playerParams.value);
+        }
+        console.log("Requesting Game State again...")
         socket.send(JSON.stringify(["direct", {"host": ["getGamestate", myClientId]}]))
       } else {
 
@@ -107,7 +125,9 @@ function App() {
       <br/>
       {JSON.stringify({clients})}
       <br/>
-      {myId}
+      My ID: {myId} <br/>
+      My Chair Index: {myChairIndex} <br/>
+      My Role: {role} <br/>
       <button onClick={()=>{localStorage.setItem("clientId", "")}}>Reset User</button>
       </div>
     </>
