@@ -1,3 +1,4 @@
+import { Button } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 const URL = "wss://clocktower.gstonegames.com:8081/"
@@ -119,16 +120,16 @@ function App() {
           {/* {JSON.stringify(x)} */}
           {
             x.id == "" ?
-              <button onClick={() => {
+              <Button variant="outlined" onClick={() => {
                 var i = gamestate.gamestate.indexOf(x);
                 mySocket?.send(JSON.stringify(["claim",[i, myId]]))
               }
-              }>{gamestate.gamestate.indexOf(x) + 1}</button>
+              }>{gamestate.gamestate.indexOf(x) + 1}</Button>
             : x.id == myId ? <div>
-                <button onClick={()=>{mySocket?.send(JSON.stringify(["claim",[-1, myId]]))}}>Stand up</button> 
+                <Button variant="contained" onClick={()=>{mySocket?.send(JSON.stringify(["claim",[-1, myId]]))}}>Stand up</Button> 
                 {roleMap[myChairIndex]}
                 </div>
-            : <>{gamestate.gamestate.indexOf(x) + 1}</>
+            : <><Button disabled>{gamestate.gamestate.indexOf(x) + 1}</Button></>
           }
         </div>)
       }
