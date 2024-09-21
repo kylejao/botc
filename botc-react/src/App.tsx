@@ -123,15 +123,15 @@ function App() {
                 var i = gamestate.gamestate.indexOf(x);
                 mySocket?.send(JSON.stringify(["claim",[i, myId]]))
               }
-              }>Claim {gamestate.gamestate.indexOf(x)}</button>
-            : x.id == myId ? <div>Me</div> : <>Other Player</>
+              }>{gamestate.gamestate.indexOf(x)}</button>
+            : x.id == myId ? <button onClick={()=>{mySocket?.send(JSON.stringify(["claim",[-1, myId]]))}}>Stand up</button> : <>Other Player</>
           }
         </div>)
       }
       <br/>
       {JSON.stringify({clients})}
       <br/>
-      <button onClick={()=>{mySocket?.send(JSON.stringify(["claim",[-1, myId]]))}}>Stand up</button><br/>
+      
       My ID: {myId} <br/>
       My Chair Index: {myChairIndex} <br/>
       My Role: {roleMap[myChairIndex]} <br/>
