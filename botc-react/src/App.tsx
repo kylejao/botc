@@ -39,7 +39,7 @@ function App() {
   const [myId, setMyId] = useState("");
   const [mySocket, setMySocket] = useState<WebSocket | null>(null);
   const [myChairIndex, setMyChairIndex] = useState(-1);
-  const [role, setRole] = useState("")
+  const [roleMap, setRoleMap] = useState<Record<number, string>>({})
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const roomNoParamValue = urlParams.get('roomNo');
@@ -85,12 +85,18 @@ function App() {
         console.log("Received Player Message")
         const playerParams: PlayerMessageInterface = params;
         console.log("Player Params: ", playerParams)
-        if (playerParams.property == "role" && playerParams.index == myChairIndex) {
+
+        console.log("Role satisfied", playerParams.property == "role")
+        console.log("Index satisfied:", playerParams.index == myChairIndex)
+        console.log(myChairIndex)
+
+        if (playerParams.property == "role") {
           console.log("Setting role...")
-          setRole(playerParams.value);
+          setRoleMap({...roleMap, [playerParams.index]: playerParams.value})
+        } else {
+          console.log("Requesting Game State again...")
+          socket.send(JSON.stringify(["direct", {"host": ["getGamestate", myClientId]}]))           
         }
-        console.log("Requesting Game State again...")
-        socket.send(JSON.stringify(["direct", {"host": ["getGamestate", myClientId]}]))
       } else {
 
       }
@@ -127,9 +133,11 @@ function App() {
       <br/>
       My ID: {myId} <br/>
       My Chair Index: {myChairIndex} <br/>
-      My Role: {role} <br/>
+      My Role: {roleMap[myChairIndex]} <br/>
+      Roles: {JSON.stringify(roleMap)} <br/>
       <button onClick={()=>{localStorage.setItem("clientId", "")}}>Reset User</button>
       </div>
+
     </>
   ) : <>
     No game state
