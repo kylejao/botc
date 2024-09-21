@@ -1,4 +1,4 @@
-{
+const charmap: Record<string, string> = {
 "washerwoman": "洗衣婦",
 "librarian": "圖書館理員",
 "investigator": "調查員",
@@ -46,3 +46,4 @@
 "no_dashii": "諾達鯴",
 "vortox": "渦流"
 }
+export default charmap;

@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 import { useEffect, useState } from 'react'
-
+import charmap from './charmap'
 const URL = "wss://clocktower.gstonegames.com:8081/"
 const getURL = (roomNo: string): string => {
   return URL + roomNo
@@ -127,7 +127,7 @@ function App() {
               }>{gamestate.gamestate.indexOf(x) + 1}</Button>
             : x.id == myId ? <div>
                 <Button variant="contained" onClick={()=>{mySocket?.send(JSON.stringify(["claim",[-1, myId]]))}}>Stand up</Button> 
-                {roleMap[myChairIndex]}
+                {roleMap[myChairIndex] in charmap ? charmap[roleMap[myChairIndex]]: roleMap[myChairIndex]}
                 </div>
             : <><Button disabled>{gamestate.gamestate.indexOf(x) + 1}</Button></>
           }
