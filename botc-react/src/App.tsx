@@ -124,7 +124,7 @@ function App() {
                 mySocket?.send(JSON.stringify(["claim",[i, myId]]))
               }
               }>{gamestate.gamestate.indexOf(x)}</button>
-            : x.id == myId ? <button onClick={()=>{mySocket?.send(JSON.stringify(["claim",[-1, myId]]))}}>Stand up</button> : <>Other Player</>
+            : x.id == myId ? <button onClick={()=>{mySocket?.send(JSON.stringify(["claim",[-1, myId]]))}}>Stand up</button> : <>{gamestate.gamestate.indexOf(x)}</>
           }
         </div>)
       }
