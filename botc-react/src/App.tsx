@@ -131,13 +131,13 @@ function App() {
       <br/>
       {JSON.stringify({clients})}
       <br/>
+      <button onClick={()=>{mySocket?.send(JSON.stringify(["claim",[-1, myId]]))}}>Stand up</button><br/>
       My ID: {myId} <br/>
       My Chair Index: {myChairIndex} <br/>
       My Role: {roleMap[myChairIndex]} <br/>
       Roles: {JSON.stringify(roleMap)} <br/>
       <button onClick={()=>{localStorage.setItem("clientId", "")}}>Reset User</button>
       </div>
-
     </>
   ) : <>
     No game state
