@@ -42,7 +42,7 @@ function App() {
   const [roleMap, setRoleMap] = useState<Record<number, string>>({})
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const roomNoParamValue = urlParams.get('roomNo');
+    const roomNoParamValue = urlParams.get('id');
     const roomNo: string = roomNoParamValue ? roomNoParamValue : "6655";
     
     var myClientId: string;
