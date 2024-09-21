@@ -36,8 +36,18 @@ function App() {
     const urlParams = new URLSearchParams(window.location.search);
     const roomNoParamValue = urlParams.get('roomNo');
     const roomNo: string = roomNoParamValue ? roomNoParamValue : "6655";
-    const myClientId = Math.random().toString(36).slice(2);
-    setMyId(myClientId);
+    
+    var myClientId: string;
+    const localStorageClientId = localStorage.getItem("clientId")
+    if (localStorageClientId && localStorageClientId != "") {
+      setMyId(localStorageClientId);
+      myClientId = localStorageClientId;
+    } else {
+      myClientId = Math.random().toString(36).slice(2);
+      localStorage.setItem("clientId", myClientId)
+      setMyId(myClientId);
+    }
+
     const socket = new WebSocket(getURL(roomNo) + "/" + myClientId);
 
     setMySocket(socket);
@@ -98,6 +108,7 @@ function App() {
       {JSON.stringify({clients})}
       <br/>
       {myId}
+      <button onClick={()=>{localStorage.setItem("clientId", "")}}>Reset User</button>
       </div>
     </>
   ) : <>
